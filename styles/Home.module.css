@@ -1,5 +1,6 @@
 .container {
   padding: 0 2rem;
+  color: #367e44;
 }
 
 .main {
@@ -65,12 +66,9 @@
     Bitstream Vera Sans Mono, Courier New, monospace;
 }
 
-.grid {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  max-width: 800px;
+.mortgage {
+  border: 4px solid white;
+  padding: 2%;
 }
 
 .card {

@@ -1,8 +1,16 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import { useState } from 'react'
+import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
+import RangeSlider from 'react-bootstrap-range-slider';
 
 export default function Home() {
+  const [purchase, setPurchase] = useState(300000);
+  const [down, setDown] = useState(60000);
+  const [repayment, setRepayment] = useState(30);
+  const [interest, setInterest] = useState(3.8);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -13,42 +21,68 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Mortgage Calculator
         </h1>
 
         <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
+          Get started estimating your monthly payments
         </p>
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+        <div className={styles.mortgage}>
+          <div id="purchase">
+            <p>Purchase Price</p>
+            <label htmlFor="">${(Math.round(purchase*100)/100).toLocaleString()}</label>
+            <RangeSlider 
+            value ={purchase}
+            onChange ={changeEvent => setPurchase(changeEvent.target.value)}
+            min={200000}
+            max={1000000}
+            step={50000}
+            />
+          </div>
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
+          <div id="down">
+          <p>Down Payment</p>
+            <label htmlFor="">${(Math.round(down*100)/100).toLocaleString()}</label>
+            <RangeSlider 
+            value ={down}
+            onChange ={changeEvent => setDown(changeEvent.target.value)}
+            min={30000}
+            max={200000}
+            step={10000}
+            />
+          </div>
+          <div id="repayment">
+            <p>Repayment</p>
+              <label htmlFor="">{repayment} years</label>
+              <RangeSlider 
+              value ={repayment}
+              onChange ={changeEvent => setRepayment(changeEvent.target.value)}
+              min={1}
+              max={50}
+              step={1}
+              />
+          </div>
 
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+          <div id="interest">
+            <p>interest</p>
+              <label htmlFor="">{interest}%</label>
+              <RangeSlider 
+              value ={interest}
+              onChange ={changeEvent => setInterest(changeEvent.target.value)}
+              min={0}
+              max={30}
+              step={.1}
+              />
+          </div>
+          <div id="loan-amount">
+            Loan Amount
+            ${(Math.round((purchase-down)*100)/100).toLocaleString()}
+          </div>
+          <div id="per-month">
+            Per Month 
+             ${(Math.round(((purchase-down)/(repayment*12))*100)/100).toLocaleString()}
+          </div>
         </div>
       </main>
 
